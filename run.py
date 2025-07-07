@@ -14,7 +14,7 @@ def index():
 def get_events():
     try:
         print("Mongo client address:", mongo.cx.address if hasattr(mongo.cx, "address") else "No address")
-        events = list(mongo.db.events.find().sort("timestamp", -1).limit(10))
+        events = list(mongo.db.webhook_logs.find().sort("timestamp", -1).limit(10))
         return jsonify(events)
     except Exception as e:
         print("Error fetching events:", e)
