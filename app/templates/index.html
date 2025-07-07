@@ -17,28 +17,34 @@
 
   <script>
     function updateUI(events) {
-      const container = document.getElementById('events');
-      container.innerHTML = '';  // Clear old content
+  const container = document.getElementById('events');
+  container.innerHTML = '';  // Clear old content
 
-      if (events.length === 0) {
-        container.innerHTML = "<p>No events yet.</p>";
-        return;
-      }
+  if (events.length === 0) {
+    container.innerHTML = "<p>No events yet.</p>";
+    return;
+  }
 
-      events.forEach(event => {
-        const div = document.createElement('div');
-        const type = event.event_type || "unknown";
-        div.className = `event ${type}`;
-        div.innerHTML = `
-          <strong>Event:</strong> ${type}<br>
-          <strong>Author:</strong> ${event.author}<br>
-          <strong>From:</strong> ${event.from_branch}<br>
-          <strong>To:</strong> ${event.to_branch}<br>
-          <small><strong>Time:</strong> ${new Date(event.timestamp).toLocaleString()}</small>
-        `;
-        container.appendChild(div);
-      });
-    }
+  events.forEach(event => {
+    const type = event.event_type || "push"; // fallback for minimal records
+    const from = event.from_branch || "–";
+    const to = event.to_branch || "–";
+    const time = event.timestamp ? new Date(event.timestamp).toLocaleString() : "–";
+
+    const div = document.createElement('div');
+    div.className = `event ${type}`;
+
+    div.innerHTML = `
+      <strong>Event:</strong> ${type}<br>
+      <strong>Author:</strong> ${event.author}<br>
+      <strong>From:</strong> ${from}<br>
+      <strong>To:</strong> ${to}<br>
+      <small><strong>Time:</strong> ${time}</small>
+    `;
+    container.appendChild(div);
+  });
+}
+
 
     function fetchEvents() {
       fetch('/api/events')
