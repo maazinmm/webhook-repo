@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GitHub Webhook Events</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .event { margin-bottom: 15px; padding: 10px; border-left: 4px solid; }
+    .push { border-color: green; background: #e6fbe6; }
+    .pull_request { border-color: blue; background: #e6f0fb; }
+    .unknown { border-color: grey; background: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <h1>📡 Recent GitHub Events</h1>
+  <div id="events">Loading...</div>
+
+  <script>
+    function updateUI(events) {
+      const container = document.getElementById('events');
+      container.innerHTML = '';  // Clear old content
+
+      if (events.length === 0) {
+        container.innerHTML = "<p>No events yet.</p>";
+        return;
+      }
+
+      events.forEach(event => {
+        const div = document.createElement('div');
+        const type = event.event_type || "unknown";
+        div.className = `event ${type}`;
+        div.innerHTML = `
+          <strong>Event:</strong> ${type}<br>
+          <strong>Author:</strong> ${event.author}<br>
+          <strong>From:</strong> ${event.from_branch}<br>
+          <strong>To:</strong> ${event.to_branch}<br>
+          <small><strong>Time:</strong> ${new Date(event.timestamp).toLocaleString()}</small>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function fetchEvents() {
+      fetch('/api/events')
+        .then(res => res.json())
+        .then(data => updateUI(data))
+        .catch(err => console.error("Failed to fetch events:", err));
+    }
+
+    fetchEvents();                 // Initial fetch
+    setInterval(fetchEvents, 15000);  // Poll every 15 seconds
+  </script>
+</body>
+</html>
