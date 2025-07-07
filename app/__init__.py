@@ -1,6 +1,8 @@
 # __init__.py
 
-import certifi
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+
 from app.extensions import mongo
 from flask import Flask
 from .extensions import init_app
@@ -16,10 +18,16 @@ def create_app():
     app = Flask(__name__)
     
     app.config["MONGO_URI"] = os.getenv("MONGO_URI")
-    mongo.init_app(app, tlsCAFile=certifi.where(), tlsAllowInvalidCertificates=True)
-    if not app.config["MONGO_URI"]:
-        raise Exception("MONGO_URI is missing in environment variables")
-    
+    # Create a new client and connect to the server
+    client = MongoClient(app.config["MONGO_URI"], server_api=ServerApi('1'))
+
+    # Send a ping to confirm a successful connection
+    try:
+        client.admin.command('ping')
+        print("Pinged your deployment. You successfully connected to MongoDB!")
+    except Exception as e:
+        print(e)
+
     init_app(app)
     
     # registering all the blueprints
