@@ -1,5 +1,8 @@
+# requirements.txt
+
 flask
 Flask-Cors
 Flask-Login
 Flask-PyMongo
 pymongo
+python-dotenv

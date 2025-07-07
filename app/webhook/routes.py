@@ -1,4 +1,6 @@
-from flask import Blueprint, json, request
+#app/webhook/routes.py
+
+from flask import Blueprint
 from app.extensions import mongo
 
 webhook = Blueprint('Webhook', __name__, url_prefix='/webhook')
