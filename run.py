@@ -19,7 +19,15 @@ def get_events():
     except Exception as e:
         print("Error fetching events:", e)
         return jsonify({"error": "Could not fetch events"}), 500
-
+##--------------------
+@app.route("/test-db")
+def test_db():
+    try:
+        mongo.db.webhook_logs.insert_one({"msg": "Hello, MongoDB!"})
+        return "Insert successful"
+    except Exception as e:
+        return f"Insert failed: {e}"
+#-------------------- 
 
 @app.route('/webhook/receiver', methods=['POST'])
 def webhook_receiver():

@@ -1,25 +1,33 @@
-import os
 from flask import Flask
 from .extensions import init_app
+import os
 from dotenv import load_dotenv
+load_dotenv()
+
 
 from app.webhook.routes import webhook
 
 # Creating the flask app
 def create_app():
+    app = Flask(__name__)
 
-    load_dotenv()
     db_password = os.getenv("DB_PASSWORD")
-
+    
+    #app.config["MONGO_URI"] = f"mongodb+srv://webhook-user:{db_password}@webhook-db.t947vf0.mongodb.net/webhook_db?retryWrites=true&w=majority"
+    
+    app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+    if not app.config["MONGO_URI"]:
+        raise Exception("MONGO_URI is missing in environment variables")
+    
+    db_password = os.getenv("DB_PASSWORD")
     if not db_password:
         raise ValueError("DB_PASSWORD environment variable not set")
     
-    app = Flask(__name__)
-    #app.config["MONGO_URI"] = f"mongodb+srv://webhook-user:{db_password}@webhook-db.t947vf0.mongodb.net/webhook_db?retryWrites=true&w=majority"
-    app.config["MONGO_URI"] = (
-    f"mongodb+srv://webhook-user:{db_password}@webhook-db.t947vf0.mongodb.net/?retryWrites=true&w=majority&tlsAllowInvalidCertificates=true"
-)
 
+#     app.config["MONGO_URI"] = (
+#     f"mongodb+srv://webhook-user:{db_password}@webhook-db.t947vf0.mongodb.net/?retryWrites=true&w=majority&tlsAllowInvalidCertificates=true"
+# )
+    # Test connection to MongoDB
     if not app.config["MONGO_URI"]:
         print("MONGO_URI Not Connected")
     else:
