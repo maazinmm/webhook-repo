@@ -27,6 +27,8 @@ def test_db():
         return "Insert successful"
     except Exception as e:
         return f"Insert failed: {e}"
+# the other test comes here
+
 #-------------------- 
 
 @app.route('/webhook/receiver', methods=['POST'])
