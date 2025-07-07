@@ -10,10 +10,6 @@ from app.webhook.routes import webhook
 # Creating the flask app
 def create_app():
     app = Flask(__name__)
-
-    db_password = os.getenv("DB_PASSWORD")
-    
-    #app.config["MONGO_URI"] = f"mongodb+srv://webhook-user:{db_password}@webhook-db.t947vf0.mongodb.net/webhook_db?retryWrites=true&w=majority"
     
     app.config["MONGO_URI"] = os.getenv("MONGO_URI")
     if not app.config["MONGO_URI"]:
@@ -23,10 +19,6 @@ def create_app():
     if not db_password:
         raise ValueError("DB_PASSWORD environment variable not set")
     
-
-#     app.config["MONGO_URI"] = (
-#     f"mongodb+srv://webhook-user:{db_password}@webhook-db.t947vf0.mongodb.net/?retryWrites=true&w=majority&tlsAllowInvalidCertificates=true"
-# )
     # Test connection to MongoDB
     if not app.config["MONGO_URI"]:
         print("MONGO_URI Not Connected")
