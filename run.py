@@ -5,6 +5,8 @@ from app.webhook.utils import extract_author, extract_from_branch, extract_to_br
 from app.extensions import mongo
 from datetime import datetime, timezone
 from app import create_app
+from flask_cors import CORS
+
 
 app = create_app()
 
