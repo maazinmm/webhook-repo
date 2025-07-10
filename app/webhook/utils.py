@@ -18,17 +18,11 @@ def extract_from_branch(data, event_type):
         return data.get("pull_request", {}).get("head", {}).get("ref")
     return None
 
-# def extract_to_branch(data, event_type):
-#     if event_type == "push":
-#         # For push events, the target branch is usually the one being pushed to
-#         return data.get("repository", {}).get("default_branch")
-#     elif event_type == "pull_request":
-#         # For pull_request events, the target branch is the one into which the PR is merged
-#         return data.get("pull_request", {}).get("base", {}).get("ref")
-#     return None 
 def extract_to_branch(data, event_type):
     if event_type == "push":
-        return "main"  # or extract from data if structured
+        # For push events, the target branch is usually the one being pushed to
+        return data.get("repository", {}).get("default_branch")
     elif event_type == "pull_request":
+        # For pull_request events, the target branch is the one into which the PR is merged
         return data.get("pull_request", {}).get("base", {}).get("ref")
-    return None
+    return None 
