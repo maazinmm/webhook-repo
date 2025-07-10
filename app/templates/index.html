@@ -35,6 +35,7 @@
     div.className = `event ${type}`;
 
     div.innerHTML = `
+      <strong>${event.author} ${event.event_type} to ${event.to_branch} on ${event.timestamp} </strong><br>
       <strong>Event:</strong> ${type}<br>
       <strong>Author:</strong> ${event.author}<br>
       <strong>From:</strong> ${from}<br>
@@ -44,7 +45,6 @@
     container.appendChild(div);
   });
 }
-
 
     function fetchEvents() {
       fetch('/api/events')
