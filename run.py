@@ -39,7 +39,7 @@ def webhook_receiver():
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
-        # Insert into MongoDB
+        # Insert data into MongoDB
         try:
             mongo.db.webhook_logs.insert_one(record)
             return jsonify({"status": "logged"}), 201
