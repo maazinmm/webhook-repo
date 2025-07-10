@@ -2,11 +2,10 @@
 
 from flask import request, jsonify, render_template
 from app.webhook.utils import extract_author, extract_from_branch, extract_to_branch
-from app.extensions import mongo, init_app
+from app.extensions import mongo
 from datetime import datetime, timezone
 from app import create_app
 from flask_cors import CORS
-
 
 app = create_app()
 CORS(app)
@@ -24,30 +23,11 @@ def get_events():
     except Exception as e:
         print("Error fetching events:", e)
         return jsonify({"error": "Could not fetch events"}), 500
-    
-# ##--------------------
-# @app.route("/test-db")
-# def test_db():
-#     try:
-#         mongo.db.webhook_logs.insert_one({"msg": "Hello, MongoDB!"})
-#         return "Insert successful"
-#     except Exception as e:
-#         return f"Insert failed: {e}"
-# # the other test comes here
-
-# #-------------------- 
 
 @app.route('/webhook/receiver', methods=['POST'])
 def webhook_receiver():
     data = request.json
     event_type = request.headers.get('X-GitHub-Event')
-
-    # if event_type == "push":
-    #     record = {
-    #         "author": extract_author(data, event_type)
-    #     }
-    #     # Insert into MongoDB
-    #     mongo.db.webhook_logs.insert_one(record)
 
     # Process only push and pull_request
     if event_type in ["push", "pull_request"]:
