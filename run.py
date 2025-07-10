@@ -27,7 +27,8 @@ def get_events():
 @app.route('/webhook/receiver', methods=['POST'])
 def webhook_receiver():
     data = request.json
-    event_type = request.headers.get('X-GitHub-Event')
+    event_type = data.get("event_type", "").strip().lower()
+    # event_type = request.headers.get('X-GitHub-Event')
 
     # Process only push and pull_request
     if event_type in ["push", "pull_request"]:
