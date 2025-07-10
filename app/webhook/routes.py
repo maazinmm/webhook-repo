@@ -1,14 +1,11 @@
-# #app/webhook/routes.py
+# app/webhook/routes.py
 
 from flask import Blueprint
-from flask_cors import CORS
-from app.extensions import mongo
+#from app.extensions import mongo
 
+# Define the blueprint for the webhook routes
 webhook = Blueprint('Webhook', __name__, url_prefix='/api/events')
 
-# CORS(webhook)
-
-# # Registering the webhook blueprint
 # @webhook.route('/')
 # def index():
 #     return "Webhook API is running", 200
