@@ -24,49 +24,50 @@ def get_events():
     except Exception as e:
         print("Error fetching events:", e)
         return jsonify({"error": "Could not fetch events"}), 500
-##--------------------
-@app.route("/test-db")
-def test_db():
-    try:
-        mongo.db.webhook_logs.insert_one({"msg": "Hello, MongoDB!"})
-        return "Insert successful"
-    except Exception as e:
-        return f"Insert failed: {e}"
-# the other test comes here
+    
+# ##--------------------
+# @app.route("/test-db")
+# def test_db():
+#     try:
+#         mongo.db.webhook_logs.insert_one({"msg": "Hello, MongoDB!"})
+#         return "Insert successful"
+#     except Exception as e:
+#         return f"Insert failed: {e}"
+# # the other test comes here
 
-#-------------------- 
+# #-------------------- 
 
 @app.route('/webhook/receiver', methods=['POST'])
 def webhook_receiver():
     data = request.json
     event_type = request.headers.get('X-GitHub-Event')
 
-    if event_type == "push":
-        record = {
-            "author": extract_author(data, event_type)
-        }
-        # Insert into MongoDB
-        mongo.db.webhook_logs.insert_one(record)
-
-    # # Process only push and pull_request
-    # if event_type in ["push", "pull_request"]:
+    # if event_type == "push":
     #     record = {
-    #         "event_type": event_type,
-    #         "author": extract_author(data, event_type),
-    #         "from_branch": extract_from_branch(data, event_type),
-    #         "to_branch": extract_to_branch(data, event_type),
-    #         "timestamp": datetime.now(timezone.utc).isoformat()
+    #         "author": extract_author(data, event_type)
     #     }
-
     #     # Insert into MongoDB
-    #     try:
-    #         mongo.db.webhook_logs.insert_one(record)
-    #         return jsonify({"status": "logged"}), 201
-    #     except Exception as e:
-    #         print(f"MongoDB insertion error: {e}")
-    #         return jsonify({"error": "failed to log to database"}), 500
+    #     mongo.db.webhook_logs.insert_one(record)
 
-    # return jsonify({"error": "Unsupported event type"}), 400
+    # Process only push and pull_request
+    if event_type in ["push", "pull_request"]:
+        record = {
+            "event_type": event_type,
+            "author": extract_author(data, event_type),
+            "from_branch": extract_from_branch(data, event_type),
+            "to_branch": extract_to_branch(data, event_type),
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+
+        # Insert into MongoDB
+        try:
+            mongo.db.webhook_logs.insert_one(record)
+            return jsonify({"status": "logged"}), 201
+        except Exception as e:
+            print(f"MongoDB insertion error: {e}")
+            return jsonify({"error": "failed to log to database"}), 500
+
+    return jsonify({"error": "Unsupported event type"}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

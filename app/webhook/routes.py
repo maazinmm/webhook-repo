@@ -7,6 +7,8 @@ from app.extensions import mongo
 webhook = Blueprint('Webhook', __name__, url_prefix='/api/events')
 
 CORS(webhook)
+
+# Registering the webhook blueprint
 @webhook.route('/')
 def index():
     return "Webhook API is running", 200
