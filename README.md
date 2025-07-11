@@ -2,7 +2,7 @@
 
 This project listens for GitHub activity from a separate repository (`action-repo`) via custom webhooks triggered by GitHub Actions. It logs event data and displays it on a simple frontend.
 
-Technologies Used:
+### Technologies Used:
 - Flask (Python)
 - MongoDB (logging events)
 - GitHub Actions (in `action-repo`)
@@ -23,12 +23,15 @@ Technologies Used:
 webhook-repo/
 ├── app/
 │   └── webhook/
-│       ├── routes.py        # Defines the Flask route for receiving webhooks
-│       └── utils.py         # Functions to extract author, branch, etc.
+│       ├── routes.py        # Defines the Flask route for receiving and processing GitHub webhooks
+│       └── utils.py         # Functions to extract author, branch info, and other event metadata
 ├── templates/
-│   └── index.html           # Frontend to display logged events
-├── run.py                   # Flask app entry point
-└── requirements.txt         # Python dependencies
+│   ├── index.html           # Frontend UI to display logged webhook events
+│   └── images/
+│       ├── image-1.png      # Screenshot of MongoDB 'webhook_logs' collection showing event records
+│       └── image-2.png      # Screenshot of the rendered Flask UI in the browser displaying events
+├── run.py                   # Entry point for running the Flask application
+└── requirements.txt         # List of required Python dependencies for the project
 ```
 ## Running the Webhook Receiver
 
