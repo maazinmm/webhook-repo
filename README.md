@@ -22,7 +22,6 @@ Technologies Used:
 
 ## Project Structure
 
-```bash
 ```
 webhook-repo/
 ├── app/
@@ -44,18 +43,18 @@ cd webhook-repo
 python -m venv venv
 source venv/bin/activate  # Or venv\Scripts\activate on Windows
 pip install -r requirements.txt
-```bash
+
 ```
 2. Start Flask Server
 ```
 python run.py
-```bash
+
 ```
 3. Expose with Ngrok
 In a separate terminal:
 ```
 ngrok http 5000
-```bash
+
 ```
 Copy the `https://....ngrok-free.app` URL — this is your public webhook endpoint.
 
@@ -87,20 +86,19 @@ jobs:
             "repository": "'${{ github.repository }}'",
             "timestamp": "'${{ github.event.head_commit.timestamp }}'"
           }'
-```yaml
+
 ```
 ## Frontend: View the Logs
 Open the app in your browser:
 ```
-http://localhost:5000/
-```bash
-```
+http://localhost:5000
+
 You’ll see:
 - Push and Pull Request events
 - Author and branch info
 - Formatted timestamps
 - Automatically updates every 15 seconds
-```
+
 
 ![mongodb collection documents](image-1.png)
 <sub>Github events logs in mongoDB documents inside webhook_logs collection</sub>
