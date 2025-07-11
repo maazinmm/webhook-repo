@@ -2,7 +2,6 @@
 
 This project listens for GitHub activity from a separate repository (`action-repo`) via custom webhooks triggered by GitHub Actions. It logs event data and displays it on a simple frontend.
 
----
 Technologies Used:
 - Flask (Python)
 - MongoDB (logging events)
@@ -93,10 +92,10 @@ You’ll see:
 - Formatted timestamps
 - Automatically updates every 15 seconds
 
-![mongodb collection documents](image-1.png)
+<img width="1075" height="563" alt="image-1" src="https://github.com/user-attachments/assets/8a4db395-e913-48ff-8e96-0b009b4a5c07" />
 
 <sub>Github events logs in mongoDB documents inside webhook_logs collection</sub>
 
-![Flask Web UI](image-2.png)
+<img width="1236" height="721" alt="image-2" src="https://github.com/user-attachments/assets/a1e1bd02-d96f-4644-a279-9d809f10e5ab" />
 
 <sub>Github events in flask Web UI</sub>
